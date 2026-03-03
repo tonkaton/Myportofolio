@@ -9,6 +9,9 @@ import { ErrorBoundary } from '../components/common/ErrorBoundary'
 import { SEO } from '../components/common/SEO'
 import { ErrorBoundary as SceneErrorBoundary } from '../components/common/ErrorBoundary'
 import { CursorTrail } from '../components/ui/elements/CursorTrail'
+import { Terminal } from '../components/ui/elements/Terminal'
+import { PageTransitionOverlay } from '../components/ui/elements/PageTransition'
+import { useGlobalKeyboard } from '../hooks/useGlobalKeyboard'
 
 // Lazy load below-fold sections — not needed until user scrolls
 const About    = lazy(() => import('../components/ui/sections/About').then(m => ({ default: m.About })))
@@ -94,10 +97,13 @@ const CyberpunkCursor = () => {
 
 function App() {
   const isLoading = useGlobalStore((s) => s.isLoading)
+  useGlobalKeyboard()
 
   return (
     <>
       <SEO />
+      <PageTransitionOverlay />
+      <Terminal />
       <CursorTrail />
       <CyberpunkCursor />
 

@@ -2,6 +2,9 @@ import { useState } from 'react'
 import { NAV_LINKS, PERSONAL_INFO } from '../../../lib/constants'
 import { useScrollPosition } from '../../../hooks/useScrollPosition'
 import { useGlobalStore } from '../../../store/useGlobalStore'
+import { RealtimeClock } from '../elements/RealtimeClock'
+import { GlitchModeToggle } from '../elements/GlitchModeToggle'
+import { usePageTransition } from '../elements/PageTransition'
 
 export const Navbar = () => {
   const { scrollY } = useScrollPosition()
@@ -9,14 +12,15 @@ export const Navbar = () => {
   const [activeLink] = useState('home')
 
   const isScrolled = scrollY > 50
+  const { triggerTransition } = usePageTransition()
 
   const handleNavClick = (href: string) => {
-    const id = href.replace('#', '')
-    const el = document.getElementById(id)
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' })
-    }
-    setIsMobileMenuOpen(false)
+    triggerTransition(() => {
+      const id = href.replace('#', '')
+      const el = document.getElementById(id)
+      if (el) el.scrollIntoView({ behavior: 'smooth' })
+      setIsMobileMenuOpen(false)
+    })
   }
 
   return (
@@ -54,6 +58,12 @@ export const Navbar = () => {
         >
           {PERSONAL_INFO.name}
           <span style={{ color: 'var(--magenta)', opacity: 0.8 }}>_</span>
+        </div>
+
+        {/* Left side extras: clock + glitch toggle */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }} className="nav-extras">
+          <RealtimeClock />
+          <GlitchModeToggle />
         </div>
 
         {/* Desktop links */}
@@ -136,6 +146,19 @@ export const Navbar = () => {
           }} />
           AVAILABLE_FOR_WORK
         </div>
+
+        {/* Terminal hint */}
+        <div style={{
+          position: 'absolute',
+          right: '16px',
+          fontFamily: 'var(--font-body)',
+          fontSize: '0.55rem',
+          color: 'rgba(0,255,255,0.3)',
+          letterSpacing: '0.1em',
+          userSelect: 'none',
+        }} className="terminal-hint">
+          PRESS ~ FOR TERMINAL
+        </div>
       </nav>
 
       {/* Mobile menu */}
@@ -176,6 +199,8 @@ export const Navbar = () => {
       <style>{`
         @media (max-width: 768px) {
           .desktop-nav { display: none !important; }
+          .nav-extras { display: none !important; }
+          .terminal-hint { display: none !important; }
           .hamburger { display: block !important; }
           .status-indicator { display: none !important; }
         }

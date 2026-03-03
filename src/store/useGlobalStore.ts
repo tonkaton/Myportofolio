@@ -11,6 +11,11 @@ interface GlobalStore {
   setCursorPosition: (pos: { x: number; y: number }) => void
   sceneReady: boolean
   setSceneReady: (v: boolean) => void
+  // New features
+  isTerminalOpen: boolean
+  setIsTerminalOpen: (v: boolean) => void
+  isGlitchMode: boolean
+  setIsGlitchMode: (v: boolean) => void
 }
 
 export const useGlobalStore = create<GlobalStore>((set) => ({
@@ -24,4 +29,8 @@ export const useGlobalStore = create<GlobalStore>((set) => ({
   setCursorPosition: (pos) => set({ cursorPosition: pos }),
   sceneReady: false,
   setSceneReady: (v) => set({ sceneReady: v }),
+  isTerminalOpen: false,
+  setIsTerminalOpen: (v) => set({ isTerminalOpen: v }),
+  isGlitchMode: false,
+  setIsGlitchMode: (v) => set({ isGlitchMode: v }),
 }))
