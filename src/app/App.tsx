@@ -8,6 +8,7 @@ import { Loader } from '../components/common/Loader'
 import { ErrorBoundary } from '../components/common/ErrorBoundary'
 import { SEO } from '../components/common/SEO'
 import { ErrorBoundary as SceneErrorBoundary } from '../components/common/ErrorBoundary'
+import { CursorTrail } from '../components/ui/elements/CursorTrail'
 
 // Lazy load below-fold sections — not needed until user scrolls
 const About    = lazy(() => import('../components/ui/sections/About').then(m => ({ default: m.About })))
@@ -97,6 +98,7 @@ function App() {
   return (
     <>
       <SEO />
+      <CursorTrail />
       <CyberpunkCursor />
 
       {isLoading && <Loader />}
