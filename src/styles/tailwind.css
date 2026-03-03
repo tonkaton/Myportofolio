@@ -1,0 +1,38 @@
+/* 
+  tailwind.css — placeholder
+  Kalau lo mau pakai Tailwind CSS, install dulu:
+    npm install -D tailwindcss postcss autoprefixer
+    npx tailwindcss init -p
+  Lalu uncomment @tailwind directives di bawah
+*/
+
+/* @tailwind base; */
+/* @tailwind components; */
+/* @tailwind utilities; */
+
+/* Utility helpers manual */
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.items-center { align-items: center; }
+.justify-center { justify-content: center; }
+.w-full { width: 100%; }
+.h-full { height: 100%; }
+.relative { position: relative; }
+.absolute { position: absolute; }
+.overflow-hidden { overflow: hidden; }
+.text-center { text-align: center; }
+.hidden { display: none; }
+.block { display: block; }
+
+/* Custom glow utilities */
+.text-glow-cyan {
+  text-shadow: 0 0 20px rgba(0, 255, 255, 0.6), 0 0 40px rgba(0, 255, 255, 0.3);
+}
+
+.border-glow-cyan {
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.3), inset 0 0 10px rgba(0, 255, 255, 0.1);
+}
+
+.bg-cyber-dark {
+  background: radial-gradient(ellipse at center, #040c14 0%, #000000 100%);
+}
