@@ -42,14 +42,7 @@ export const Contact = () => {
       }}
     >
       <Container>
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr 1fr',
-          gap: '80px',
-          alignItems: 'start',
-        }}
-          className="contact-grid"
-        >
+        <div className="contact-grid">
           {/* Left */}
           <div>
             <div className="section-label">GET_IN_TOUCH // 04</div>
@@ -231,11 +224,20 @@ export const Contact = () => {
       </Container>
 
       <style>{`
-        @media (max-width: 768px) {
+        .contact-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 80px;
+          align-items: start;
+        }
+        @media (max-width: 900px) {
           .contact-grid {
             grid-template-columns: 1fr !important;
-            gap: 40px !important;
+            gap: 48px !important;
           }
+        }
+        .contact-input {
+          box-sizing: border-box;
         }
       `}</style>
     </section>

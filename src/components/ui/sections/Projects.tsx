@@ -73,7 +73,7 @@ export const Projects = () => {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 500px), 1fr))',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 480px), 1fr))',
             gap: '24px',
           }}
           className="projects-grid"
@@ -117,6 +117,13 @@ export const Projects = () => {
           </a>
         </div>
       </Container>
+    <style>{`
+        @media (max-width: 640px) {
+          .projects-grid {
+            grid-template-columns: 1fr !important;
+          }
+        }
+      `}</style>
     </section>
   )
 }

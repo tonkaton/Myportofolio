@@ -58,7 +58,7 @@ export const Hero = () => {
         minHeight: '100vh',
         display: 'flex',
         alignItems: 'center',
-        padding: '100px 0',
+        padding: '120px 0 80px',
       }}
     >
       <Container>
@@ -192,8 +192,8 @@ export const Hero = () => {
         {/* Location tag */}
         <div style={{
           position: 'absolute',
-          right: '40px',
-          bottom: '40px',
+          right: '0',
+          bottom: '-40px',
           fontFamily: 'var(--font-body)',
           fontSize: '0.65rem',
           color: 'var(--text-dim)',

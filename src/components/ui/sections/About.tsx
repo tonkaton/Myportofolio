@@ -3,15 +3,10 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { PERSONAL_INFO } from '../../../lib/constants'
 import { Container } from '../layout/Container'
+import profilePhoto from '../../../assets/fotokaton.png'
 
-// ─── GANTI INI dengan path foto lo ───────────────────────────────────────────
-// Letakkan foto lo di: src/assets/profile.jpg (atau .png / .webp)
-// Lalu import di bawah ini:
-// import profilePhoto from '../../../assets/profile.jpg'
-// Dan ganti PHOTO_SRC jadi: profilePhoto
-const PHOTO_SRC = '' // Kosong = tampil avatar initials (fallback)
-// ─────────────────────────────────────────────────────────────────────────────
 
+const PHOTO_SRC = profilePhoto
 gsap.registerPlugin(ScrollTrigger)
 
 export const About = () => {
@@ -41,7 +36,7 @@ export const About = () => {
   return (
     <section id="about" ref={sectionRef} style={{ position: 'relative', zIndex: 10, padding: '120px 0' }}>
       <Container>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'center' }} className="about-grid">
+        <div className="about-grid">
 
           {/* Content */}
           <div className="about-content" style={{ opacity: 0 }}>
@@ -166,9 +161,22 @@ export const About = () => {
       </Container>
 
       <style>{`
-        @keyframes scanV { 0% { top: 0 } 100% { top: 100% } }
-        @media (max-width: 768px) {
-          .about-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
+        @keyframes scanV { 0% { top: 0% } 100% { top: 100% } }
+        .about-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 80px;
+          align-items: center;
+        }
+        @media (max-width: 900px) {
+          .about-grid {
+            grid-template-columns: 1fr !important;
+            gap: 48px !important;
+          }
+          .about-visual {
+            max-width: 360px;
+            margin: 0 auto;
+          }
         }
       `}</style>
     </section>

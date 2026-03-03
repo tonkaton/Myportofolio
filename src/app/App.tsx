@@ -125,7 +125,7 @@ function App() {
       <div style={{ position: 'relative', zIndex: 10 }}>
         <Navbar />
 
-        <main>
+        <main style={{ position: 'relative' }}>
           <ErrorBoundary>
             {/* Hero loads immediately — above fold */}
             <Hero />

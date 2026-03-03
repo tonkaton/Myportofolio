@@ -100,9 +100,9 @@ canvas {
   will-change: transform;
 }
 
-/* Layout containment for sections — browser skips unnecessary reflow */
+/* Layout containment — hanya paint, bukan layout (layout contain break fixed positioning) */
 section {
-  contain: layout style;
+  contain: paint;
 }
 
 /* Reduce font weights loaded */

@@ -10,14 +10,12 @@ export const Navbar = () => {
   const { scrollY } = useScrollPosition()
   const { isMobileMenuOpen, setIsMobileMenuOpen } = useGlobalStore()
   const [activeLink] = useState('home')
-
   const isScrolled = scrollY > 50
   const { triggerTransition } = usePageTransition()
 
   const handleNavClick = (href: string) => {
     triggerTransition(() => {
-      const id = href.replace('#', '')
-      const el = document.getElementById(id)
+      const el = document.getElementById(href.replace('#', ''))
       if (el) el.scrollIntoView({ behavior: 'smooth' })
       setIsMobileMenuOpen(false)
     })
@@ -27,54 +25,50 @@ export const Navbar = () => {
     <>
       <nav style={{
         position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 100,
-        padding: '0 40px',
-        height: '70px',
+        top: 0, left: 0, right: 0,
+        zIndex: 1000,
+        height: '64px',
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'space-between',
-        background: isScrolled
-          ? 'rgba(0, 4, 8, 0.85)'
-          : 'transparent',
-        backdropFilter: isScrolled ? 'blur(10px)' : 'none',
+        padding: '0 32px',
+        gap: '24px',
+        background: isScrolled ? 'rgba(0,4,8,0.92)' : 'transparent',
+        backdropFilter: isScrolled ? 'blur(12px)' : 'none',
         borderBottom: isScrolled ? '1px solid var(--border)' : 'none',
-        transition: 'all 0.4s ease',
+        transition: 'background 0.4s ease, border-color 0.4s ease',
       }}>
-        {/* Logo */}
-        <div
+
+        {/* ── LOGO (left-most) ── */}
+        <button
+          onClick={() => handleNavClick('#home')}
           style={{
             fontFamily: 'var(--font-display)',
-            fontSize: '1.2rem',
+            fontSize: '1rem',
             fontWeight: 900,
-            letterSpacing: '0.3em',
+            letterSpacing: '0.25em',
             color: 'var(--cyan)',
-            textShadow: '0 0 20px var(--cyan)',
+            textShadow: '0 0 16px var(--cyan)',
+            background: 'none',
+            border: 'none',
             cursor: 'none',
+            whiteSpace: 'nowrap',
+            flexShrink: 0,
           }}
-          onClick={() => handleNavClick('#home')}
         >
-          {PERSONAL_INFO.name}
-          <span style={{ color: 'var(--magenta)', opacity: 0.8 }}>_</span>
-        </div>
+          {PERSONAL_INFO.name}<span style={{ color: 'var(--magenta)', opacity: 0.8 }}>_</span>
+        </button>
 
-        {/* Left side extras: clock + glitch toggle */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }} className="nav-extras">
+        {/* ── CLOCK + GLITCH (left extras, hides on mobile) ── */}
+        <div className="nav-extras" style={{ display: 'flex', alignItems: 'center', gap: '12px', flexShrink: 0 }}>
           <RealtimeClock />
           <GlitchModeToggle />
         </div>
 
-        {/* Desktop links */}
-        <div
-          className="desktop-nav"
-          style={{
-            display: 'flex',
-            gap: '40px',
-            listStyle: 'none',
-          }}
-        >
+        {/* ── SPACER pushes nav links + right items to the right ── */}
+        <div style={{ flex: 1 }} />
+
+        {/* ── NAV LINKS (center-right, desktop only) ── */}
+        <div className="desktop-nav" style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
           {NAV_LINKS.map(({ label, href }) => (
             <NavItem
               key={label}
@@ -86,110 +80,54 @@ export const Navbar = () => {
           ))}
         </div>
 
-        {/* Mobile hamburger */}
+        {/* ── STATUS + TERMINAL HINT (right, desktop only) ── */}
+        <div className="nav-right" style={{ display: 'flex', alignItems: 'center', gap: '16px', flexShrink: 0 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontFamily: 'var(--font-body)', fontSize: '0.6rem', color: 'var(--green)', letterSpacing: '0.1em', whiteSpace: 'nowrap' }}>
+            <span style={{ width: '5px', height: '5px', borderRadius: '50%', background: 'var(--green)', boxShadow: '0 0 6px var(--green)', animation: 'pulse-glow 2s ease-in-out infinite', flexShrink: 0 }} />
+            AVAILABLE
+          </div>
+          <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.5rem', color: 'rgba(0,255,255,0.25)', letterSpacing: '0.08em', whiteSpace: 'nowrap' }}>
+            PRESS ` FOR TERMINAL
+          </span>
+        </div>
+
+        {/* ── HAMBURGER (mobile only) ── */}
         <button
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          style={{
-            display: 'none',
-            background: 'none',
-            border: '1px solid var(--border)',
-            padding: '8px',
-            cursor: 'none',
-          }}
           className="hamburger"
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          style={{ display: 'none', flexDirection: 'column', gap: '5px', background: 'none', border: '1px solid var(--border)', padding: '8px', cursor: 'none', flexShrink: 0 }}
         >
-          <div style={{
-            width: '22px',
-            height: '2px',
-            background: 'var(--cyan)',
-            marginBottom: '5px',
-            transition: 'all 0.3s',
-            transform: isMobileMenuOpen ? 'rotate(45deg) translate(5px, 5px)' : 'none',
-          }} />
-          <div style={{
-            width: '22px',
-            height: '2px',
-            background: 'var(--cyan)',
-            marginBottom: '5px',
-            opacity: isMobileMenuOpen ? 0 : 1,
-          }} />
-          <div style={{
-            width: '22px',
-            height: '2px',
-            background: 'var(--cyan)',
-            transform: isMobileMenuOpen ? 'rotate(-45deg) translate(5px, -5px)' : 'none',
-            transition: 'all 0.3s',
-          }} />
+          {[0, 1, 2].map((i) => (
+            <div key={i} style={{
+              width: '20px', height: '2px',
+              background: 'var(--cyan)',
+              transition: 'all 0.3s',
+              transform: isMobileMenuOpen
+                ? i === 0 ? 'rotate(45deg) translate(5px, 5px)'
+                : i === 1 ? 'scaleX(0)'
+                : 'rotate(-45deg) translate(5px, -5px)'
+                : 'none',
+              opacity: isMobileMenuOpen && i === 1 ? 0 : 1,
+            }} />
+          ))}
         </button>
-
-        {/* Status indicator */}
-        <div style={{
-          position: 'absolute',
-          right: '180px',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-          fontFamily: 'var(--font-body)',
-          fontSize: '0.65rem',
-          color: 'var(--green)',
-          letterSpacing: '0.1em',
-        }}
-          className="status-indicator"
-        >
-          <span style={{
-            width: '6px',
-            height: '6px',
-            borderRadius: '50%',
-            background: 'var(--green)',
-            boxShadow: '0 0 8px var(--green)',
-            animation: 'pulse-glow 2s ease-in-out infinite',
-          }} />
-          AVAILABLE_FOR_WORK
-        </div>
-
-        {/* Terminal hint */}
-        <div style={{
-          position: 'absolute',
-          right: '16px',
-          fontFamily: 'var(--font-body)',
-          fontSize: '0.55rem',
-          color: 'rgba(0,255,255,0.3)',
-          letterSpacing: '0.1em',
-          userSelect: 'none',
-        }} className="terminal-hint">
-          PRESS ~ FOR TERMINAL
-        </div>
       </nav>
 
-      {/* Mobile menu */}
+      {/* ── MOBILE FULLSCREEN MENU ── */}
       {isMobileMenuOpen && (
         <div style={{
-          position: 'fixed',
-          inset: 0,
-          zIndex: 99,
-          background: 'rgba(0, 4, 8, 0.97)',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: '32px',
-          backdropFilter: 'blur(10px)',
+          position: 'fixed', inset: 0, zIndex: 999,
+          background: 'rgba(0,4,8,0.97)',
+          backdropFilter: 'blur(12px)',
+          display: 'flex', flexDirection: 'column',
+          alignItems: 'center', justifyContent: 'center', gap: '28px',
         }}>
           {NAV_LINKS.map(({ label, href }) => (
-            <button
-              key={label}
-              onClick={() => handleNavClick(href)}
-              style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: '1.4rem',
-                letterSpacing: '0.3em',
-                color: 'var(--text-primary)',
-                cursor: 'none',
-                padding: '8px 16px',
-                background: 'none',
-                border: 'none',
-              }}
-            >
+            <button key={label} onClick={() => handleNavClick(href)} style={{
+              fontFamily: 'var(--font-display)', fontSize: '1.2rem',
+              letterSpacing: '0.3em', color: 'var(--text-primary)',
+              background: 'none', border: 'none', cursor: 'none', padding: '8px 24px',
+            }}>
               {label}
             </button>
           ))}
@@ -197,60 +135,42 @@ export const Navbar = () => {
       )}
 
       <style>{`
-        @media (max-width: 768px) {
-          .desktop-nav { display: none !important; }
-          .nav-extras { display: none !important; }
-          .terminal-hint { display: none !important; }
-          .hamburger { display: block !important; }
-          .status-indicator { display: none !important; }
+        @media (max-width: 900px) {
+          .desktop-nav  { display: none !important; }
+          .nav-extras   { display: none !important; }
+          .nav-right    { display: none !important; }
+          .hamburger    { display: flex !important; }
         }
       `}</style>
     </>
   )
 }
 
-const NavItem = ({
-  label,
-  href: _href,
-  active,
-  onClick,
-}: {
-  label: string
-  href: string
-  active: boolean
-  onClick: () => void
+const NavItem = ({ label, href: _href, active, onClick }: {
+  label: string; href: string; active: boolean; onClick: () => void
 }) => {
   const [hovered, setHovered] = useState(false)
-
+  const on = active || hovered
   return (
     <button
       onClick={onClick}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        fontFamily: 'var(--font-display)',
-        fontSize: '0.65rem',
-        letterSpacing: '0.25em',
-        color: active || hovered ? 'var(--cyan)' : 'var(--text-secondary)',
-        background: 'none',
-        border: 'none',
-        cursor: 'none',
-        position: 'relative',
-        padding: '4px 0',
-        transition: 'color 0.3s ease',
-        textShadow: active || hovered ? '0 0 10px var(--cyan)' : 'none',
+        fontFamily: 'var(--font-display)', fontSize: '0.6rem', letterSpacing: '0.22em',
+        color: on ? 'var(--cyan)' : 'var(--text-secondary)',
+        background: 'none', border: 'none', cursor: 'none',
+        position: 'relative', padding: '4px 0',
+        transition: 'color 0.25s', textShadow: on ? '0 0 10px var(--cyan)' : 'none',
       }}
     >
       {label}
       <span style={{
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        height: '1px',
-        background: 'var(--cyan)',
+        position: 'absolute', bottom: 0, left: 0, right: 0,
+        height: '1px', background: 'var(--cyan)',
+        transform: on ? 'scaleX(1)' : 'scaleX(0)',
+        transformOrigin: 'left', transition: 'transform 0.25s ease',
         boxShadow: '0 0 6px var(--cyan)',
-        transition: 'width 0.3s ease',
-        width: active || hovered ? '100%' : '0%',
       }} />
     </button>
   )

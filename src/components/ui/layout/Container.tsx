@@ -10,12 +10,13 @@ interface ContainerProps {
 export const Container = ({ children, className = '', style, narrow = false }: ContainerProps) => {
   return (
     <div
-      className={className}
+      className={`site-container ${className}`}
       style={{
         maxWidth: narrow ? '800px' : '1200px',
         margin: '0 auto',
-        padding: '0 40px',
+        padding: '0 clamp(20px, 5vw, 60px)',
         width: '100%',
+        position: 'relative',
         ...style,
       }}
     >

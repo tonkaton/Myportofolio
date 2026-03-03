@@ -121,9 +121,9 @@ export const Skills = () => {
         </div>
 
         {/* Skills grid by category */}
-        <div style={{
+        <div className="skills-grid" style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 380px), 1fr))',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 340px), 1fr))',
           gap: '40px 60px',
         }}>
           {categories.map(({ key, label }) => {
@@ -161,6 +161,11 @@ export const Skills = () => {
           })}
         </div>
       </Container>
+    <style>{`
+        @media (max-width: 640px) {
+          .skills-grid { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
     </section>
   )
 }
