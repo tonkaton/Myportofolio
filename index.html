@@ -4,13 +4,28 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#000000" />
-    <title>KATON — Creative Developer</title>
-    <meta name="description" content="Full-stack creative developer crafting immersive 3D web experiences, interactive UIs, and cutting-edge applications." />
-
-    <!-- Preconnect Google Fonts -->
+    <!-- Preconnect to Google Fonts (non-blocking) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Rajdhani:wght@400;600&display=swap"
+      rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet" />
+    </noscript>
+    <title>KATON — Creative Developer</title>
+    <meta name="description" content="Full-stack creative developer crafting immersive 3D web experiences" />
+
+    <!-- DNS prefetch & preconnect untuk Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Preload font CSS agar tidak block render -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Rajdhani:wght@400;600&display=swap" as="style" onload="this.onload=null;this.rel=&apos;stylesheet&apos;" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Rajdhani:wght@400;600&display=swap" /></noscript>
   </head>
   <body>
     <div id="root"></div>

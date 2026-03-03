@@ -1,17 +1,24 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, lazy, Suspense } from 'react'
 import { useGlobalStore } from '../store/useGlobalStore'
 import { SceneCanvas } from '../components/scene/SceneCanvas'
 import { Navbar } from '../components/ui/layout/Navbar'
 import { Footer } from '../components/ui/layout/Footer'
 import { Hero } from '../components/ui/sections/Hero'
-import { About } from '../components/ui/sections/About'
-import { Projects } from '../components/ui/sections/Projects'
-import { Skills } from '../components/ui/sections/Skills'
-import { Contact } from '../components/ui/sections/Contact'
 import { Loader } from '../components/common/Loader'
 import { ErrorBoundary } from '../components/common/ErrorBoundary'
 import { SEO } from '../components/common/SEO'
 import { ErrorBoundary as SceneErrorBoundary } from '../components/common/ErrorBoundary'
+
+// Lazy load below-fold sections — not needed until user scrolls
+const About    = lazy(() => import('../components/ui/sections/About').then(m => ({ default: m.About })))
+const Projects = lazy(() => import('../components/ui/sections/Projects').then(m => ({ default: m.Projects })))
+const Skills   = lazy(() => import('../components/ui/sections/Skills').then(m => ({ default: m.Skills })))
+const Contact  = lazy(() => import('../components/ui/sections/Contact').then(m => ({ default: m.Contact })))
+
+// Minimal fallback — invisible height placeholder to avoid layout shift
+const SectionFallback = () => (
+  <div style={{ minHeight: '100vh' }} />
+)
 
 // Custom Cursor
 const CyberpunkCursor = () => {
@@ -29,7 +36,7 @@ const CyberpunkCursor = () => {
       }
     }
 
-    window.addEventListener('mousemove', onMouseMove)
+    window.addEventListener('mousemove', onMouseMove, { passive: true })
 
     let frame: number
     const lerp = (a: number, b: number, t: number) => a + (b - a) * t
@@ -57,8 +64,8 @@ const CyberpunkCursor = () => {
       if (ringRef.current) ringRef.current.style.transform = 'scale(1)'
     }
 
-    window.addEventListener('mousedown', onMouseDown)
-    window.addEventListener('mouseup', onMouseUp)
+    window.addEventListener('mousedown', onMouseDown, { passive: true })
+    window.addEventListener('mouseup', onMouseUp, { passive: true })
 
     return () => {
       window.removeEventListener('mousemove', onMouseMove)
@@ -94,7 +101,6 @@ function App() {
 
       {isLoading && <Loader />}
 
-      {/* 3D Scene Background */}
       <SceneErrorBoundary
         fallback={
           <div style={{
@@ -108,17 +114,27 @@ function App() {
         <SceneCanvas />
       </SceneErrorBoundary>
 
-      {/* UI Layer */}
       <div style={{ position: 'relative', zIndex: 10 }}>
         <Navbar />
 
         <main>
           <ErrorBoundary>
+            {/* Hero loads immediately — above fold */}
             <Hero />
-            <About />
-            <Projects />
-            <Skills />
-            <Contact />
+
+            {/* Below-fold sections lazy loaded */}
+            <Suspense fallback={<SectionFallback />}>
+              <About />
+            </Suspense>
+            <Suspense fallback={<SectionFallback />}>
+              <Projects />
+            </Suspense>
+            <Suspense fallback={<SectionFallback />}>
+              <Skills />
+            </Suspense>
+            <Suspense fallback={<SectionFallback />}>
+              <Contact />
+            </Suspense>
           </ErrorBoundary>
         </main>
 

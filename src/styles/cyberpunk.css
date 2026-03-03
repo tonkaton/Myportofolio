@@ -285,3 +285,38 @@
 .spin-slow {
   animation: spin-slow 20s linear infinite;
 }
+
+/* Performance: GPU layer promotion for animated elements */
+.glitch,
+.glitch::before,
+.glitch::after {
+  will-change: transform, opacity;
+}
+
+.float {
+  will-change: transform;
+}
+
+.neon-cyan,
+.neon-magenta,
+.neon-green {
+  will-change: filter;
+}
+
+.cyber-card {
+  will-change: transform, box-shadow;
+}
+
+.custom-cursor,
+.custom-cursor-ring {
+  will-change: left, top;
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  .glitch::before,
+  .glitch::after,
+  .float {
+    animation: none !important;
+  }
+}

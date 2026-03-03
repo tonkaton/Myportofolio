@@ -2,7 +2,10 @@ import { useRef, useMemo } from 'react'
 import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 
-const COUNT = 800
+// Adaptive particle count based on device capability
+const isMobile = window.matchMedia('(max-width: 768px)').matches
+const isLowEnd = navigator.hardwareConcurrency <= 4
+const COUNT = isMobile ? 200 : isLowEnd ? 400 : 800
 
 export const Particles = () => {
   const meshRef = useRef<THREE.Points>(null)

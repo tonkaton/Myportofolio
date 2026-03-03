@@ -2,22 +2,26 @@ import { EffectComposer, Bloom, ChromaticAberration } from "@react-three/postpro
 import { BlendFunction } from "postprocessing"
 import { Vector2 } from "three"
 
-export const BloomEffect = () => {
+const isMobile = window.matchMedia("(max-width: 768px)").matches
+
+export const BloomEffect = ({ degraded = false }: { degraded?: boolean }) => {
   return (
-    <EffectComposer>
+    <EffectComposer multisampling={degraded ? 0 : 4}>
       <Bloom
-        intensity={1.5}
-        luminanceThreshold={0.2}
+        intensity={degraded ? 0.8 : 1.5}
+        luminanceThreshold={degraded ? 0.4 : 0.2}
         luminanceSmoothing={0.9}
         mipmapBlur
-        radius={0.8}
+        radius={degraded ? 0.4 : 0.8}
       />
-      <ChromaticAberration
-        offset={new Vector2(0.002, 0.002)}
-        blendFunction={BlendFunction.NORMAL}
-        radialModulation={false}
-        modulationOffset={0}
-      />
+      {!isMobile && !degraded && (
+        <ChromaticAberration
+          offset={new Vector2(0.002, 0.002)}
+          blendFunction={BlendFunction.NORMAL}
+          radialModulation={false}
+          modulationOffset={0}
+        />
+      )}
     </EffectComposer>
   )
 }

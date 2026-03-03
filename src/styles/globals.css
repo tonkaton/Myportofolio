@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;500;600;700&display=swap');
+/* Fonts loaded via <link> preconnect in index.html for non-blocking load */
 
 *,
 *::before,
@@ -85,3 +85,24 @@ img {
   position: relative;
   min-height: 100vh;
 }
+
+/* ===== PERFORMANCE OPTIMIZATIONS ===== */
+
+/* GPU layer hint for animated elements */
+.custom-cursor,
+.custom-cursor-ring {
+  will-change: left, top;
+  contain: strict;
+}
+
+/* Reduce paint area for fixed canvas */
+canvas {
+  will-change: transform;
+}
+
+/* Layout containment for sections — browser skips unnecessary reflow */
+section {
+  contain: layout style;
+}
+
+/* Reduce font weights loaded */
