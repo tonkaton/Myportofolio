@@ -3,14 +3,9 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { PERSONAL_INFO } from '../../../lib/constants'
 import { Container } from '../layout/Container'
+import profilePhoto from '../../../assets/fotokaton.png'
 
-// ─── GANTI INI dengan path foto lo ───────────────────────────────────────────
-// Letakkan foto lo di: src/assets/profile.jpg (atau .png / .webp)
-// Lalu import di bawah ini:
-// import profilePhoto from '../../../assets/profile.jpg'
-// Dan ganti PHOTO_SRC jadi: profilePhoto
-const PHOTO_SRC = '' // Kosong = tampil avatar initials (fallback)
-// ─────────────────────────────────────────────────────────────────────────────
+const PHOTO_SRC = profilePhoto
 
 gsap.registerPlugin(ScrollTrigger)
 
