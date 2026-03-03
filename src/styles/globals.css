@@ -100,10 +100,7 @@ canvas {
   will-change: transform;
 }
 
-/* Layout containment — hanya paint, bukan layout (layout contain break fixed positioning) */
-section {
-  contain: paint;
-}
+/* Note: contain removed — it clips z-index stacking and overflow in some browsers */
 
 /* Reduce font weights loaded */
 

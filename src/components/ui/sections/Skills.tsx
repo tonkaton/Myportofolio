@@ -15,11 +15,6 @@ const SkillBar = ({ skill, index }: { skill: Skill; index: number }) => {
     if (!barRef.current || !fillRef.current) return
 
     const fill = fillRef.current
-    const isMobile = window.innerWidth <= 900
-    if (isMobile) {
-      document.querySelectorAll('.project-card, .about-content, .about-visual').forEach((el: any) => { el.style.opacity = '1' })
-    }
-
     const ctx = gsap.context(() => {
       gsap.fromTo(fill,
         { width: '0%' },

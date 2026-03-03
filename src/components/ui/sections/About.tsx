@@ -14,9 +14,6 @@ export const About = () => {
   const photoRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const isMobile = window.innerWidth <= 900
-    if (isMobile) return // Skip GSAP on mobile — elements already visible via CSS
-
     const ctx = gsap.context(() => {
       gsap.fromTo('.about-content',
         { opacity: 0, x: -60 },
@@ -42,7 +39,7 @@ export const About = () => {
         <div className="about-grid">
 
           {/* Content */}
-          <div className="about-content" style={{ opacity: 0 }}>
+          <div className="about-content">
             <div className="section-label">ABOUT_ME // 01</div>
             <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.8rem, 3vw, 2.5rem)', fontWeight: 800, letterSpacing: '0.05em', color: 'var(--text-primary)', marginBottom: '24px', lineHeight: 1.2 }}>
               CRAFTING DIGITAL<br />
@@ -71,7 +68,7 @@ export const About = () => {
           </div>
 
           {/* Visual — Photo or Avatar fallback */}
-          <div className="about-visual" style={{ opacity: 0 }}>
+          <div className="about-visual">
             <div ref={photoRef} className="about-photo-box" style={{ position: 'relative', width: '100%', paddingBottom: '100%' }}>
 
               <div style={{
@@ -173,16 +170,21 @@ export const About = () => {
           align-items: center;
         }
 
-        /* Mobile: stack vertically, show photo FIRST */
+        /* Desktop initial state for GSAP */
+        @media (min-width: 901px) {
+          .about-content { opacity: 0; }
+          .about-visual  { opacity: 0; }
+        }
+
+        /* Mobile: fully visible, photo on top */
         @media (max-width: 900px) {
           .about-grid {
             grid-template-columns: 1fr !important;
-            gap: 40px !important;
+            gap: 36px !important;
           }
-          /* Move visual (photo) to top on mobile */
           .about-visual {
             order: -1 !important;
-            max-width: 300px !important;
+            max-width: 280px !important;
             width: 100% !important;
             margin: 0 auto !important;
             opacity: 1 !important;
@@ -191,16 +193,10 @@ export const About = () => {
             order: 1 !important;
             opacity: 1 !important;
           }
-          /* Fix aspect ratio box on mobile */
-          .about-photo-box {
-            padding-bottom: 100% !important;
-          }
         }
 
         @media (max-width: 480px) {
-          .about-visual {
-            max-width: 240px !important;
-          }
+          .about-visual { max-width: 220px !important; }
         }
       `}</style>
     </section>

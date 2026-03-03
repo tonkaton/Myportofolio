@@ -122,10 +122,10 @@ function App() {
         <SceneCanvas />
       </SceneErrorBoundary>
 
-      <div style={{ position: 'relative', zIndex: 10 }}>
+      <div style={{ position: 'relative', zIndex: 10, minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
         <Navbar />
 
-        <main style={{ position: 'relative' }}>
+        <main style={{ position: 'relative', flex: 1 }}>
           <ErrorBoundary>
             {/* Hero loads immediately — above fold */}
             <Hero />
