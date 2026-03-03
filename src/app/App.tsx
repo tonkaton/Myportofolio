@@ -122,7 +122,7 @@ function App() {
         <SceneCanvas />
       </SceneErrorBoundary>
 
-      <div style={{ position: 'relative', zIndex: 10, minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+      <div style={{ position: 'relative', zIndex: 10, display: 'flex', flexDirection: 'column' }} className="app-wrapper">
         <Navbar />
 
         <main style={{ position: 'relative', flex: 1 }}>
