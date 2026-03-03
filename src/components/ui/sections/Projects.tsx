@@ -11,6 +11,11 @@ export const Projects = () => {
   const sectionRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
+    const isMobile = window.innerWidth <= 900
+    if (isMobile) {
+      document.querySelectorAll('.project-card, .about-content, .about-visual').forEach((el: any) => { el.style.opacity = '1' })
+    }
+
     const ctx = gsap.context(() => {
       gsap.fromTo('.project-card',
         { opacity: 0, y: 50 },

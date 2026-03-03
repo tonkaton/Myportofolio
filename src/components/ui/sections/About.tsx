@@ -5,8 +5,8 @@ import { PERSONAL_INFO } from '../../../lib/constants'
 import { Container } from '../layout/Container'
 import profilePhoto from '../../../assets/fotokaton.png'
 
-
 const PHOTO_SRC = profilePhoto
+
 gsap.registerPlugin(ScrollTrigger)
 
 export const About = () => {
@@ -14,6 +14,9 @@ export const About = () => {
   const photoRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    const isMobile = window.innerWidth <= 900
+    if (isMobile) return // Skip GSAP on mobile — elements already visible via CSS
+
     const ctx = gsap.context(() => {
       gsap.fromTo('.about-content',
         { opacity: 0, x: -60 },
@@ -69,7 +72,7 @@ export const About = () => {
 
           {/* Visual — Photo or Avatar fallback */}
           <div className="about-visual" style={{ opacity: 0 }}>
-            <div ref={photoRef} style={{ position: 'relative', width: '100%', paddingBottom: '100%' }}>
+            <div ref={photoRef} className="about-photo-box" style={{ position: 'relative', width: '100%', paddingBottom: '100%' }}>
 
               <div style={{
                 position: 'absolute', inset: 0,
@@ -162,20 +165,41 @@ export const About = () => {
 
       <style>{`
         @keyframes scanV { 0% { top: 0% } 100% { top: 100% } }
+
         .about-grid {
           display: grid;
           grid-template-columns: 1fr 1fr;
           gap: 80px;
           align-items: center;
         }
+
+        /* Mobile: stack vertically, show photo FIRST */
         @media (max-width: 900px) {
           .about-grid {
             grid-template-columns: 1fr !important;
-            gap: 48px !important;
+            gap: 40px !important;
           }
+          /* Move visual (photo) to top on mobile */
           .about-visual {
-            max-width: 360px;
-            margin: 0 auto;
+            order: -1 !important;
+            max-width: 300px !important;
+            width: 100% !important;
+            margin: 0 auto !important;
+            opacity: 1 !important;
+          }
+          .about-content {
+            order: 1 !important;
+            opacity: 1 !important;
+          }
+          /* Fix aspect ratio box on mobile */
+          .about-photo-box {
+            padding-bottom: 100% !important;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .about-visual {
+            max-width: 240px !important;
           }
         }
       `}</style>

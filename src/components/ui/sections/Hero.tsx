@@ -58,7 +58,8 @@ export const Hero = () => {
         minHeight: '100vh',
         display: 'flex',
         alignItems: 'center',
-        padding: '120px 0 80px',
+        padding: '100px 0 80px',
+        paddingTop: 'max(100px, calc(72px + 28px))',
       }}
     >
       <Container>
@@ -131,6 +132,7 @@ export const Hero = () => {
           {/* CTAs */}
           <div
             ref={ctaRef}
+            className="hero-cta"
             style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}
           >
             <Button
@@ -152,9 +154,10 @@ export const Hero = () => {
           </div>
 
           {/* Stats row */}
-          <div style={{
+          <div className="hero-stats" style={{
             display: 'flex',
             gap: '40px',
+            flexWrap: 'wrap',
             marginTop: '60px',
             paddingTop: '32px',
             borderTop: '1px solid var(--border)',
@@ -232,6 +235,13 @@ export const Hero = () => {
           animation: 'pulse-glow 2s ease-in-out infinite',
         }} />
       </div>
+      <style>{`
+        @media (max-width: 640px) {
+          .hero-stats { gap: 24px !important; }
+          .hero-cta   { flex-direction: column !important; }
+          .hero-cta > * { width: 100% !important; text-align: center; }
+        }
+      `}</style>
     </section>
   )
 }
