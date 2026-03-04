@@ -1,4 +1,4 @@
-import { useEffect, useRef, lazy, Suspense } from 'react'
+import { useEffect, lazy, Suspense } from 'react'
 import { useGlobalStore } from '../store/useGlobalStore'
 import { SceneCanvas } from '../components/scene/SceneCanvas'
 import { Navbar } from '../components/ui/layout/Navbar'
@@ -24,77 +24,6 @@ const SectionFallback = () => (
   <div style={{ minHeight: '100vh' }} />
 )
 
-// Custom Cursor
-const CyberpunkCursor = () => {
-  const cursorRef = useRef<HTMLDivElement>(null)
-  const ringRef = useRef<HTMLDivElement>(null)
-  const pos = useRef({ x: 0, y: 0 })
-  const ringPos = useRef({ x: 0, y: 0 })
-
-  useEffect(() => {
-    const onMouseMove = (e: MouseEvent) => {
-      pos.current = { x: e.clientX, y: e.clientY }
-      if (cursorRef.current) {
-        cursorRef.current.style.left = `${e.clientX - 6}px`
-        cursorRef.current.style.top = `${e.clientY - 6}px`
-      }
-    }
-
-    window.addEventListener('mousemove', onMouseMove, { passive: true })
-
-    let frame: number
-    const lerp = (a: number, b: number, t: number) => a + (b - a) * t
-
-    const animateRing = () => {
-      ringPos.current.x = lerp(ringPos.current.x, pos.current.x, 0.12)
-      ringPos.current.y = lerp(ringPos.current.y, pos.current.y, 0.12)
-
-      if (ringRef.current) {
-        ringRef.current.style.left = `${ringPos.current.x - 18}px`
-        ringRef.current.style.top = `${ringPos.current.y - 18}px`
-      }
-
-      frame = requestAnimationFrame(animateRing)
-    }
-
-    frame = requestAnimationFrame(animateRing)
-
-    const onMouseDown = () => {
-      if (cursorRef.current) cursorRef.current.style.transform = 'scale(0.7)'
-      if (ringRef.current) ringRef.current.style.transform = 'scale(1.4)'
-    }
-    const onMouseUp = () => {
-      if (cursorRef.current) cursorRef.current.style.transform = 'scale(1)'
-      if (ringRef.current) ringRef.current.style.transform = 'scale(1)'
-    }
-
-    window.addEventListener('mousedown', onMouseDown, { passive: true })
-    window.addEventListener('mouseup', onMouseUp, { passive: true })
-
-    return () => {
-      window.removeEventListener('mousemove', onMouseMove)
-      window.removeEventListener('mousedown', onMouseDown)
-      window.removeEventListener('mouseup', onMouseUp)
-      cancelAnimationFrame(frame)
-    }
-  }, [])
-
-  return (
-    <>
-      <div
-        ref={cursorRef}
-        className="custom-cursor"
-        style={{ position: 'fixed', pointerEvents: 'none', zIndex: 9999, transition: 'transform 0.15s ease' }}
-      />
-      <div
-        ref={ringRef}
-        className="custom-cursor-ring"
-        style={{ position: 'fixed', pointerEvents: 'none', zIndex: 9998, transition: 'transform 0.3s ease' }}
-      />
-    </>
-  )
-}
-
 function App() {
   const isLoading = useGlobalStore((s) => s.isLoading)
   useGlobalKeyboard()
@@ -105,7 +34,6 @@ function App() {
       <PageTransitionOverlay />
       <Terminal />
       <CursorTrail />
-      <CyberpunkCursor />
 
       {isLoading && <Loader />}
 
