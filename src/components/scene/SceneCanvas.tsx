@@ -7,63 +7,54 @@ import { Environment } from './Environment'
 import { CyberpunkGrid } from './objects/CyberpunkGrid'
 import { FloatingGeometry } from './objects/FloatingGeometry'
 import { Particles } from './objects/Particles'
-import { BloomEffect } from './effects/BloomEffect'
-import { GlitchEffect } from './effects/GlitchEffect'
-import { NoiseEffect } from './effects/NoiseEffect'
-import { useMouseParallax } from './hooks/useMouseParallax'
+import { SceneEffects } from './effects/SceneEffects'
 import { useGlobalStore } from '../../store/useGlobalStore'
+import * as THREE from 'three'
 
-// Detect device capability once at module level
 const isMobile = window.matchMedia('(max-width: 768px)').matches
 const isLowEnd = navigator.hardwareConcurrency <= 4
 
-const SceneContent = () => {
-  const { smoothMouse } = useMouseParallax(0.8)
-
-  return (
-    <>
-      <PerspectiveCamera makeDefault position={[0, 0, 8]} fov={60} />
-      <CameraRig mouseX={smoothMouse.x} mouseY={smoothMouse.y} />
-      <Lights />
-      {!isMobile && <Environment />}
-
-      <Suspense fallback={null}>
-        <CyberpunkGrid />
-        <FloatingGeometry />
-        {!isLowEnd && <Particles />}
-      </Suspense>
-
-      <BloomEffect />
-      {!isMobile && <GlitchEffect />}
-      <NoiseEffect />
-    </>
-  )
-}
+const SceneContent = () => (
+  <>
+    <PerspectiveCamera makeDefault position={[0, 0, 8]} fov={60} />
+    <CameraRig />
+    <Lights />
+    {!isMobile && <Environment />}
+    <Suspense fallback={null}>
+      <CyberpunkGrid />
+      <FloatingGeometry />
+      {!isLowEnd && <Particles />}
+    </Suspense>
+    <SceneEffects />
+  </>
+)
 
 export const SceneCanvas = () => {
   const setSceneReady = useGlobalStore((s) => s.setSceneReady)
-  const handleCreated = useCallback(() => setSceneReady(true), [setSceneReady])
+  const handleCreated = useCallback(({ gl }: { gl: THREE.WebGLRenderer }) => {
+    // NoToneMapping = warna keluar persis seperti di shader, tidak dikompresi
+    gl.toneMapping = THREE.NoToneMapping
+    gl.toneMappingExposure = 1.0
+    setSceneReady(true)
+  }, [setSceneReady])
 
   return (
     <Canvas
       gl={{
-        antialias: !isMobile,          // Disable antialias on mobile — big GPU saving
+        antialias: !isMobile,
         alpha: true,
         powerPreference: 'high-performance',
-        toneMapping: 3,
-        toneMappingExposure: 1.2,
-        precision: isMobile ? 'mediump' : 'highp', // Lower precision on mobile
+        precision: isMobile ? 'mediump' : 'highp',
       }}
-      dpr={isMobile ? [1, 1.5] : [1, 2]}  // Cap DPR: mobile max 1.5x, desktop max 2x
+      dpr={isMobile ? [1, 1.5] : [1, 2]}
+      frameloop="always"
       onCreated={handleCreated}
       style={{
         position: 'fixed',
-        top: 0,
-        left: 0,
+        top: 0, left: 0,
         width: '100vw',
         height: '100vh',
         zIndex: 0,
-        background: 'transparent',
       }}
     >
       <AdaptiveDpr pixelated />

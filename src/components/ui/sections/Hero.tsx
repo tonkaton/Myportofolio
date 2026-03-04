@@ -6,7 +6,6 @@ import { Container } from '../layout/Container'
 import { startGlitchLoop } from '../animations/glitchText'
 
 export const Hero = () => {
-  const wrapRef  = useRef<HTMLDivElement>(null)
   const lineRef  = useRef<HTMLDivElement>(null)
   const titleRef = useRef<HTMLHeadingElement>(null)
   const subRef   = useRef<HTMLDivElement>(null)
@@ -16,11 +15,7 @@ export const Hero = () => {
   useEffect(() => {
     const isMobile = window.innerWidth <= 768
 
-    if (isMobile) {
-      // On mobile just show everything immediately, no animation
-      if (wrapRef.current) wrapRef.current.style.opacity = '1'
-      return
-    }
+    if (isMobile) return // mobile: CSS handles visibility
 
     const tl = gsap.timeline({ delay: 0.3 })
     tl.fromTo(lineRef.current,
@@ -44,17 +39,25 @@ export const Hero = () => {
         { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }, '-=0.4'
       )
 
-    if (titleRef.current) {
-      setTimeout(() => {
-        if (titleRef.current) startGlitchLoop(titleRef.current, 7000)
-      }, 2500)
+    // Store cleanup fn dari glitch loop
+    let stopGlitch: (() => void) | undefined
+    const glitchTimer = setTimeout(() => {
+      if (titleRef.current) {
+        stopGlitch = startGlitchLoop(titleRef.current, 7000)
+      }
+    }, 2500)
+
+    return () => {
+      clearTimeout(glitchTimer)
+      stopGlitch?.()
+      tl.kill()
     }
   }, [])
 
   return (
     <section id="home" className="hero-section">
       <Container>
-        <div ref={wrapRef} className="hero-wrap">
+        <div className="hero-wrap">
 
           {/* ── Label ── */}
           <p className="hero-label">SYSTEM_ONLINE // PORTFOLIO_v2.5</p>
@@ -246,6 +249,16 @@ export const Hero = () => {
           height: 36px;
           background: linear-gradient(to bottom, var(--cyan), transparent);
           animation: pulse-glow 2s ease-in-out infinite;
+        }
+
+        /* ── DESKTOP INITIAL STATE (GSAP will animate these in) ── */
+        @media (min-width: 769px) {
+          .hero-title,
+          .hero-subtitle,
+          .hero-bio,
+          .hero-cta {
+            opacity: 0; /* GSAP animates to opacity:1 */
+          }
         }
 
         /* ── MOBILE ── */

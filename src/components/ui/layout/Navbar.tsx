@@ -1,17 +1,29 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { NAV_LINKS, PERSONAL_INFO } from '../../../lib/constants'
-import { useScrollPosition } from '../../../hooks/useScrollPosition'
 import { useGlobalStore } from '../../../store/useGlobalStore'
 import { RealtimeClock } from '../elements/RealtimeClock'
 import { GlitchModeToggle } from '../elements/GlitchModeToggle'
 import { usePageTransition } from '../elements/PageTransition'
 
 export const Navbar = () => {
-  const { scrollY } = useScrollPosition()
   const { isMobileMenuOpen, setIsMobileMenuOpen } = useGlobalStore()
   const [activeLink] = useState('home')
-  const isScrolled = scrollY > 50
+  const navRef = useRef<HTMLElement>(null)
+  const isScrolled = false // handled via DOM ref below
   const { triggerTransition } = usePageTransition()
+
+  // Zero re-render scroll detection — direct DOM manipulation
+  useEffect(() => {
+    const nav = navRef.current
+    if (!nav) return
+    const onScroll = () => {
+      const scrolled = window.scrollY > 50
+      nav.style.background = scrolled ? 'rgba(0,4,8,0.95)' : 'rgba(0,0,0,0.2)'
+      nav.style.borderBottomColor = scrolled ? 'rgba(0,255,255,0.2)' : 'rgba(0,255,255,0.06)'
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   const handleNavClick = (href: string) => {
     triggerTransition(() => {
@@ -23,7 +35,7 @@ export const Navbar = () => {
 
   return (
     <>
-      <nav style={{
+      <nav ref={navRef} style={{
         position: 'fixed',
         top: 0, left: 0, right: 0,
         zIndex: 1000,
@@ -32,9 +44,9 @@ export const Navbar = () => {
         alignItems: 'center',
         padding: '0 40px',
         gap: '20px',
-        background: isScrolled ? 'rgba(0,4,8,0.95)' : 'rgba(0,0,0,0.2)',
+        background: 'rgba(0,0,0,0.2)',
         backdropFilter: 'blur(12px)',
-        borderBottom: '1px solid ' + (isScrolled ? 'rgba(0,255,255,0.2)' : 'rgba(0,255,255,0.06)'),
+        borderBottom: '1px solid rgba(0,255,255,0.06)',
         transition: 'background 0.4s ease, border-color 0.4s ease',
       }}>
 
