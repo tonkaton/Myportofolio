@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { PERSONAL_INFO } from '../../../lib/constants'
 import { Button } from '../elements/Button'
+import { Download } from 'lucide-react'
 import { Container } from '../layout/Container'
 import { startGlitchLoop } from '../animations/glitchText'
 
@@ -92,6 +93,14 @@ export const Hero = () => {
               onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}>
               CONTACT ME
             </Button>
+            <a
+              href="/cv.pdf"
+              download="Katon_CV.pdf"
+              className="hero-cv-btn"
+            >
+              <Download size={16} strokeWidth={2} />
+              DOWNLOAD CV
+            </a>
           </div>
 
           {/* ── Stats ── */}
@@ -192,7 +201,48 @@ export const Hero = () => {
           display: flex;
           gap: 16px;
           flex-wrap: wrap;
+          align-items: center;
           margin-bottom: 56px;
+        }
+
+        .hero-cv-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          padding: 14px 28px;
+          background: transparent;
+          border: 1.5px solid var(--magenta);
+          color: var(--magenta);
+          font-family: var(--font-display);
+          font-size: 0.72rem;
+          font-weight: 700;
+          letter-spacing: 0.18em;
+          text-decoration: none;
+          cursor: pointer;
+          position: relative;
+          transition: all 0.25s ease;
+          clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+        }
+        .hero-cv-btn::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: var(--magenta);
+          opacity: 0;
+          transition: opacity 0.25s ease;
+          clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+        }
+        .hero-cv-btn:hover {
+          color: #000;
+          box-shadow: 0 0 24px var(--magenta), 0 0 48px rgba(255,0,255,0.3);
+          text-shadow: none;
+        }
+        .hero-cv-btn:hover::before {
+          opacity: 1;
+        }
+        .hero-cv-btn span, .hero-cv-btn svg {
+          position: relative;
+          z-index: 1;
         }
 
         .hero-stats {
@@ -292,6 +342,11 @@ export const Hero = () => {
             width: 100%;
             text-align: center;
             justify-content: center;
+          }
+          .hero-cv-btn {
+            width: 100%;
+            justify-content: center;
+            padding: 14px 20px;
           }
           .hero-stats {
             gap: 24px;

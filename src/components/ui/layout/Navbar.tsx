@@ -190,6 +190,28 @@ export const Navbar = () => {
           <div style={{ marginTop: '40px', fontFamily: 'var(--font-body)', fontSize: '0.75rem', letterSpacing: '0.15em', color: 'rgba(0,255,255,0.4)' }}>
             <RealtimeClock />
           </div>
+
+          {/* Mobile glitch toggle */}
+          <div style={{ marginTop: '20px' }}>
+            <GlitchModeToggle />
+          </div>
+
+          {/* Mobile CV download */}
+          <a
+            href="/cv.pdf"
+            download="Katon_CV.pdf"
+            style={{
+              marginTop: '16px',
+              display: 'inline-flex', alignItems: 'center', gap: '8px',
+              fontFamily: 'var(--font-display)', fontSize: '0.75rem',
+              letterSpacing: '0.18em', color: 'var(--cyan)',
+              border: '1.5px solid rgba(0,255,255,0.5)',
+              padding: '12px 32px', textDecoration: 'none',
+              background: 'rgba(0,255,255,0.05)',
+            }}
+          >
+            ↓ DOWNLOAD CV
+          </a>
         </div>
       )}
 

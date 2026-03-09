@@ -5,7 +5,6 @@ export const GlitchModeToggle = () => {
   const isGlitchMode  = useGlobalStore((s) => s.isGlitchMode)
   const setGlitchMode = useGlobalStore((s) => s.setIsGlitchMode)
 
-  // Apply glitch-mode class to <html> whenever state changes
   useEffect(() => {
     if (isGlitchMode) {
       document.documentElement.classList.add('glitch-mode')
@@ -19,19 +18,31 @@ export const GlitchModeToggle = () => {
       onClick={() => setGlitchMode(!isGlitchMode)}
       title="Toggle Glitch Mode"
       style={{
-        background: 'none',
-        border: `1px solid ${isGlitchMode ? 'var(--magenta)' : 'var(--border)'}`,
+        background: isGlitchMode ? 'rgba(255,0,255,0.15)' : 'transparent',
+        border: `1px solid ${isGlitchMode ? 'var(--magenta)' : 'rgba(0,255,255,0.35)'}`,
         color: isGlitchMode ? 'var(--magenta)' : 'var(--text-secondary)',
         fontFamily: 'var(--font-body)',
-        fontSize: '0.55rem',
+        fontSize: '0.58rem',
         letterSpacing: '0.15em',
-        padding: '4px 8px',
-        cursor: 'none',
-        transition: 'all 0.3s',
-        textShadow: isGlitchMode ? '0 0 8px var(--magenta)' : 'none',
-        boxShadow: isGlitchMode ? '0 0 10px rgba(255,0,255,0.3)' : 'none',
+        padding: '5px 10px',
+        cursor: 'pointer',
+        transition: 'all 0.25s',
+        textShadow: isGlitchMode ? '0 0 10px var(--magenta)' : 'none',
+        boxShadow: isGlitchMode ? '0 0 12px rgba(255,0,255,0.4), inset 0 0 6px rgba(255,0,255,0.1)' : 'none',
+        userSelect: 'none',
+        whiteSpace: 'nowrap',
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: '6px',
       }}
     >
+      <span style={{
+        width: '6px', height: '6px', borderRadius: '50%',
+        background: isGlitchMode ? 'var(--magenta)' : 'rgba(0,255,255,0.4)',
+        boxShadow: isGlitchMode ? '0 0 6px var(--magenta)' : 'none',
+        display: 'inline-block', flexShrink: 0,
+        animation: isGlitchMode ? 'pulse-glow 0.8s ease-in-out infinite' : 'none',
+      }} />
       {isGlitchMode ? 'GLITCH_ON' : 'GLITCH_OFF'}
     </button>
   )

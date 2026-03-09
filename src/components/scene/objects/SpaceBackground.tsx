@@ -21,7 +21,7 @@ const Stars = () => {
 const Meteors = () => {
   const DATA = useMemo(() => Array.from({ length: 7 }, (_, i) => ({
     speed:  1.0 + i * 0.45,
-    y:      -2.8 + i * 1.0,
+    y:       1.5 + i * 0.8,
     z:      -0.8 - i * 0.4,
     offset: i * 3.8,
     size:   0.03 + (i % 3) * 0.018,
@@ -60,7 +60,7 @@ const Meteors = () => {
 export const SpaceBackground = () => (
   <>
     <Stars />
-    <group position={[0, 0.5, -1.5]}>
+    <group position={[0, 2.5, -2.5]}>
       <Meteors />
     </group>
   </>

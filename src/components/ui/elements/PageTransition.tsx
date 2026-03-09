@@ -1,26 +1,31 @@
-import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 
-interface PageTransitionProps {
-  onComplete?: () => void
-}
+// ─────────────────────────────────────────
+// MODEL: Clean horizontal slice wipe
+// Ringan, tidak ngelag, smooth
+//
+// Urutan:
+//  1. Single panel hitam slide masuk dari kiri (0.3s)
+//  2. callback() dipanggil
+//  3. Panel slide keluar ke kanan (0.28s)
+// ─────────────────────────────────────────
 
 export const usePageTransition = () => {
   const triggerTransition = (callback: () => void) => {
-    const overlay = document.getElementById('page-transition-overlay')
+    const overlay = document.getElementById('pt-overlay')
     if (!overlay) { callback(); return }
 
-    const bars = overlay.querySelectorAll('.trans-bar')
+    const panel = overlay.querySelector<HTMLElement>('.pt-panel')!
 
     gsap.timeline()
-      .set(overlay, { display: 'flex' })
-      .fromTo(bars,
-        { scaleY: 0, transformOrigin: 'bottom' },
-        { scaleY: 1, duration: 0.4, ease: 'power4.in', stagger: 0.05 },
+      .set(overlay, { display: 'block' })
+      .fromTo(panel,
+        { xPercent: -100 },
+        { xPercent: 0, duration: 0.28, ease: 'power2.inOut' }
       )
       .call(callback)
-      .to(bars,
-        { scaleY: 0, transformOrigin: 'top', duration: 0.4, ease: 'power4.out', stagger: 0.05 },
+      .to(panel,
+        { xPercent: 100, duration: 0.26, ease: 'power2.inOut' }
       )
       .set(overlay, { display: 'none' })
   }
@@ -28,31 +33,33 @@ export const usePageTransition = () => {
   return { triggerTransition }
 }
 
-export const PageTransitionOverlay = () => {
-  const colors = ['var(--cyan)', 'var(--magenta)', 'var(--cyan)', 'var(--magenta)', 'var(--cyan)']
-
-  return (
+export const PageTransitionOverlay = () => (
+  <div
+    id="pt-overlay"
+    style={{
+      position: 'fixed', inset: 0, zIndex: 99999,
+      display: 'none', pointerEvents: 'none',
+      overflow: 'hidden',
+    }}
+  >
     <div
-      id="page-transition-overlay"
+      className="pt-panel"
       style={{
-        position: 'fixed', inset: 0, zIndex: 99999,
-        display: 'none', alignItems: 'stretch',
-        pointerEvents: 'none',
+        position: 'absolute', inset: 0,
+        background: 'linear-gradient(105deg, #000810 60%, #001520 100%)',
+        borderRight: '2px solid rgba(0,255,255,0.5)',
+        boxShadow: '4px 0 24px rgba(0,255,255,0.15)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
       }}
     >
-      {colors.map((color, i) => (
-        <div
-          key={i}
-          className="trans-bar"
-          style={{
-            flex: 1,
-            background: color,
-            opacity: 0.9,
-            transform: 'scaleY(0)',
-            transformOrigin: 'bottom',
-          }}
-        />
-      ))}
+      <span style={{
+        fontFamily: 'var(--font-display)',
+        fontSize: '0.5rem',
+        letterSpacing: '0.6em',
+        color: 'rgba(0,255,255,0.3)',
+      }}>
+        SYS//NAVIGATE
+      </span>
     </div>
-  )
-}
+  </div>
+)
