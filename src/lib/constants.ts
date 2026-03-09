@@ -1,10 +1,11 @@
-import type { NavLink, Project, Skill } from '../types/project'
+import type { NavLink, Project, Skill, Certificate } from '../types/project'
 
 export const NAV_LINKS: NavLink[] = [
   { label: 'HOME', href: '#home' },
   { label: 'ABOUT', href: '#about' },
   { label: 'PROJECTS', href: '#projects' },
   { label: 'SKILLS', href: '#skills' },
+  { label: 'CERTS', href: '#certificates' },
   { label: 'CONTACT', href: '#contact' },
 ]
 
@@ -76,3 +77,54 @@ export const PERSONAL_INFO = {
   github: 'https://github.com/katondev',
   linkedin: 'https://linkedin.com/in/katondev',
 }
+
+export const CERTIFICATES: Certificate[] = [
+  {
+    id: '01',
+    title: 'MASUKKAN NAMA SERTIFIKAT LO',
+    issuer: 'NAMA ISSUER / PLATFORM',
+    date: '2024',
+    credentialUrl: '#',
+    category: 'frontend',
+  },
+  {
+    id: '02',
+    title: 'MASUKKAN NAMA SERTIFIKAT LO',
+    issuer: 'NAMA ISSUER / PLATFORM',
+    date: '2024',
+    credentialUrl: '#',
+    category: 'backend',
+  },
+  {
+    id: '03',
+    title: 'MASUKKAN NAMA SERTIFIKAT LO',
+    issuer: 'NAMA ISSUER / PLATFORM',
+    date: '2023',
+    credentialUrl: '#',
+    category: 'cloud',
+  },
+  {
+    id: '04',
+    title: 'MASUKKAN NAMA SERTIFIKAT LO',
+    issuer: 'NAMA ISSUER / PLATFORM',
+    date: '2023',
+    credentialUrl: '#',
+    category: 'design',
+  },
+  {
+    id: '05',
+    title: 'MASUKKAN NAMA SERTIFIKAT LO',
+    issuer: 'NAMA ISSUER / PLATFORM',
+    date: '2023',
+    credentialUrl: '#',
+    category: 'frontend',
+  },
+  {
+    id: '06',
+    title: 'MASUKKAN NAMA SERTIFIKAT LO',
+    issuer: 'NAMA ISSUER / PLATFORM',
+    date: '2022',
+    credentialUrl: '#',
+    category: 'other',
+  },
+]

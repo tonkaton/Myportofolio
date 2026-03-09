@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { useGlobalStore } from '../../../store/useGlobalStore'
-import { PERSONAL_INFO, PROJECTS, SKILLS } from '../../../lib/constants'
+import { PERSONAL_INFO, PROJECTS, SKILLS, CERTIFICATES } from '../../../lib/constants'
 
 interface TerminalLine {
   type: 'input' | 'output' | 'error' | 'system'
@@ -15,6 +15,7 @@ const COMMANDS: Record<string, () => string[]> = {
     '│  whoami      — about me             │',
     '│  ls projects — list all projects    │',
     '│  skills      — view skill matrix    │',
+    '│  certs       — list certificates    │',
     '│  contact     — get contact info     │',
     '│  social      — social links         │',
     '│  clear       — clear terminal       │',
@@ -29,6 +30,9 @@ const COMMANDS: Record<string, () => string[]> = {
     `> LOCATION: ${PERSONAL_INFO.location}`,
     `> STATUS: AVAILABLE FOR WORK`,
   ],
+  certs: () => CERTIFICATES.map((c) =>
+    `[${c.id}] ${c.title.padEnd(38)} ${c.issuer} (${c.date})`
+  ),
   'ls projects': () => PROJECTS.map((p, i) =>
     `[${String(i + 1).padStart(2, '0')}] ${p.title.padEnd(30)} ${p.tags.slice(0, 2).join(' | ')}`
   ),

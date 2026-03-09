@@ -17,7 +17,8 @@ import { useGlobalKeyboard } from '../hooks/useGlobalKeyboard'
 const About    = lazy(() => import('../components/ui/sections/About').then(m => ({ default: m.About })))
 const Projects = lazy(() => import('../components/ui/sections/Projects').then(m => ({ default: m.Projects })))
 const Skills   = lazy(() => import('../components/ui/sections/Skills').then(m => ({ default: m.Skills })))
-const Contact  = lazy(() => import('../components/ui/sections/Contact').then(m => ({ default: m.Contact })))
+const Contact      = lazy(() => import('../components/ui/sections/Contact').then(m => ({ default: m.Contact })))
+const Certificates = lazy(() => import('../components/ui/sections/Certificates').then(m => ({ default: m.Certificates })))
 
 // Minimal fallback — invisible height placeholder to avoid layout shift
 const SectionFallback = () => (
@@ -67,6 +68,9 @@ function App() {
             </Suspense>
             <Suspense fallback={<SectionFallback />}>
               <Skills />
+            </Suspense>
+            <Suspense fallback={<SectionFallback />}>
+              <Certificates />
             </Suspense>
             <Suspense fallback={<SectionFallback />}>
               <Contact />

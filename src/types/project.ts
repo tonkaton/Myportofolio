@@ -21,3 +21,12 @@ export interface NavLink {
   label: string
   href: string
 }
+
+export interface Certificate {
+  id: string
+  title: string
+  issuer: string
+  date: string
+  credentialUrl?: string
+  category: 'frontend' | 'backend' | 'cloud' | 'design' | 'other'
+}
