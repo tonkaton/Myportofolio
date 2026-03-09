@@ -10,7 +10,6 @@ export const Navbar = () => {
   const { isMobileMenuOpen, setIsMobileMenuOpen } = useGlobalStore()
   const [activeLink] = useState('home')
   const navRef = useRef<HTMLElement>(null)
-  const isScrolled = false // handled via DOM ref below
   const { triggerTransition } = usePageTransition()
 
   // Zero re-render scroll detection — direct DOM manipulation
@@ -136,7 +135,7 @@ export const Navbar = () => {
             <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--green)', boxShadow: '0 0 8px var(--green)', animation: 'pulse-glow 2s ease-in-out infinite', flexShrink: 0, display: 'inline-block' }} />
             AVAILABLE_FOR_WORK
           </div>
-          <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.52rem', color: 'rgba(0,255,255,0.3)', letterSpacing: '0.08em', whiteSpace: 'nowrap' }}>
+          <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.52rem', color: 'rgba(0,255,255,0.55)', letterSpacing: '0.08em', whiteSpace: 'nowrap' }}>
             PRESS ` FOR TERMINAL
           </span>
         </div>
@@ -183,7 +182,7 @@ export const Navbar = () => {
               onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--cyan)')}
               onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-primary)')}
             >
-              <span style={{ color: 'rgba(0,255,255,0.3)', fontSize: '0.55rem', marginRight: '12px', letterSpacing: '0.2em' }}>0{i + 1}</span>
+              <span style={{ color: 'rgba(0,255,255,0.55)', fontSize: '0.55rem', marginRight: '12px', letterSpacing: '0.2em' }}>0{i + 1}</span>
               {label}
             </button>
           ))}
@@ -220,7 +219,7 @@ const NavItem = ({ label, href: _href, active, onClick }: {
       onMouseLeave={() => setHovered(false)}
       style={{
         fontFamily: 'var(--font-display)', fontSize: '0.65rem', letterSpacing: '0.22em',
-        color: on ? 'var(--cyan)' : 'var(--text-secondary)',
+        color: on ? 'var(--cyan)' : 'rgba(200,220,225,0.8)',
         background: 'none', border: 'none', cursor: 'none',
         position: 'relative', padding: '6px 0',
         transition: 'color 0.25s', textShadow: on ? '0 0 12px var(--cyan)' : 'none',

@@ -2,7 +2,6 @@ import { useRef, useMemo } from 'react'
 import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 
-// Shaders sebagai konstanta modul — tidak pernah dibuat ulang
 const VERT = `
   varying vec2 vUv;
   void main() {
@@ -17,17 +16,27 @@ const FRAG = `
   uniform float uOpacity;
   varying vec2  vUv;
 
-  float grid(vec2 uv, float d) {
-    vec2 g = fract(uv * d);
-    return 1.0 - smoothstep(0.01, 0.02, min(abs(g.x - 0.5), abs(g.y - 0.5)));
+  float grid(vec2 uv, float divisions) {
+    vec2 g = abs(fract(uv * divisions - 0.5) - 0.5) / fwidth(uv * divisions);
+    return 1.0 - min(min(g.x, g.y), 1.0);
   }
 
   void main() {
-    float g = max(grid(vUv, 20.0) * 0.6, grid(vUv, 4.0));
-    float scan = smoothstep(0.99, 1.0, fract(vUv.y - uTime * 0.1)) * 0.4;
-    float fade = (1.0 - pow(abs(vUv.y - 0.5) * 2.0, 2.0))
-               * (1.0 - pow(abs(vUv.x - 0.5) * 2.0, 3.0));
-    float alpha = g * uOpacity * fade + scan * 0.25;
+    // Grid utama — kotak besar
+    float g1 = grid(vUv, 8.0) * 0.8;
+    // Sub-grid — kotak kecil di dalam
+    float g2 = grid(vUv, 40.0) * 0.25;
+    float g  = max(g1, g2);
+
+    // Scanline berjalan
+    float scan = smoothstep(0.995, 1.0, fract(vUv.y - uTime * 0.08)) * 0.5;
+
+    // Fade ke tepi supaya natural
+    float fadeX = 1.0 - pow(abs(vUv.x - 0.5) * 2.0, 2.5);
+    float fadeY = 1.0 - pow(abs(vUv.y - 0.5) * 2.0, 2.5);
+    float fade  = fadeX * fadeY;
+
+    float alpha = (g * uOpacity + scan * 0.3) * fade;
     gl_FragColor = vec4(uColor, alpha);
   }
 `
@@ -38,7 +47,7 @@ export const CyberpunkGrid = () => {
   const uniforms = useMemo(() => ({
     uTime:    { value: 0 },
     uColor:   { value: new THREE.Color('#00ffff') },
-    uOpacity: { value: 0.5 },
+    uOpacity: { value: 0.55 },
   }), [])
 
   useFrame(({ clock }) => {
@@ -46,15 +55,17 @@ export const CyberpunkGrid = () => {
   })
 
   return (
-    <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -3, 0]}>
-      <planeGeometry args={[60, 60, 1, 1]} />
+    <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -3.5, 0]}>
+      <planeGeometry args={[80, 80, 1, 1]} />
       <shaderMaterial
         ref={matRef}
         vertexShader={VERT}
         fragmentShader={FRAG}
         uniforms={uniforms}
-        transparent depthWrite={false}
+        transparent
+        depthWrite={false}
         side={THREE.DoubleSide}
+        extensions={{ derivatives: true } as any}
       />
     </mesh>
   )

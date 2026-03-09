@@ -32,7 +32,6 @@ const bumpCount = (): number => {
 const useCountUp = (target: number, duration = 1200) => {
   const [display, setDisplay] = useState(0)
   const frame = useRef<number>(0)
-  const start = useRef<number>(0)
 
   useEffect(() => {
     if (!target) return

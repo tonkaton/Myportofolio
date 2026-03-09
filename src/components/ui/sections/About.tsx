@@ -3,9 +3,10 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { PERSONAL_INFO } from '../../../lib/constants'
 import { Container } from '../layout/Container'
-import profilePhoto from '../../../assets/fotokaton.png'
+import profilePhoto from '../../../assets/fotokaton.webp'
 
 const PHOTO_SRC = profilePhoto
+
 
 gsap.registerPlugin(ScrollTrigger)
 

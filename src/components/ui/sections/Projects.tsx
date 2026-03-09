@@ -61,7 +61,7 @@ export const Projects = () => {
           <p style={{
             fontFamily: 'var(--font-accent)',
             fontSize: '0.95rem',
-            color: 'var(--text-dim)',
+            color: 'var(--text-secondary)',
             maxWidth: '500px',
           }}>
             A selection of recent work spanning immersive web experiences,

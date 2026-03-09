@@ -108,22 +108,28 @@ export const Certificates = () => {
     : CERTIFICATES.filter(c => c.category === filter)
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.fromTo('.cert-card',
-        { opacity: 0, y: 40, scale: 0.96 },
-        {
-          opacity: 1, y: 0, scale: 1,
-          duration: 0.6,
-          stagger: 0.1,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 72%',
-          },
-        }
-      )
-    }, sectionRef)
-    return () => ctx.revert()
+    // Small delay so DOM has re-rendered filtered cards
+    const tid = setTimeout(() => {
+      const ctx = gsap.context(() => {
+        gsap.fromTo('.cert-card',
+          { opacity: 0, y: 40, scale: 0.96 },
+          {
+            opacity: 1, y: 0, scale: 1,
+            duration: 0.6,
+            stagger: 0.1,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: 'top 75%',
+              toggleActions: 'play none none none',
+            },
+          }
+        )
+        ScrollTrigger.refresh()
+      }, sectionRef)  // scoped to sectionRef — won't touch other sections
+      return () => ctx.revert()
+    }, 50)
+    return () => clearTimeout(tid)
   }, [filter])
 
   return (
@@ -153,7 +159,7 @@ export const Certificates = () => {
                 className="cert-filter-btn"
                 style={{
                   borderColor : active ? color : 'var(--border)',
-                  color       : active ? color : 'var(--text-dim)',
+                  color       : active ? color : 'rgba(180,200,210,0.7)',
                   boxShadow   : active ? `0 0 10px ${color}40` : 'none',
                   background  : active ? `${color}10` : 'transparent',
                 }}

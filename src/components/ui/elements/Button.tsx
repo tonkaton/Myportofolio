@@ -58,7 +58,7 @@ export const Button = ({
     ghost: {
       background: 'transparent',
       border: '1px solid rgba(0, 255, 255, 0.3)',
-      color: 'var(--text-secondary)',
+      color: 'var(--cyan)',
       boxShadow: 'none',
     },
   }
