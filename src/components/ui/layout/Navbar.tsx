@@ -4,6 +4,7 @@ import { useGlobalStore } from '../../../store/useGlobalStore'
 import { RealtimeClock } from '../elements/RealtimeClock'
 import { GlitchModeToggle } from '../elements/GlitchModeToggle'
 import { usePageTransition } from '../elements/PageTransition'
+import { CursorModeSwitcher } from '../elements/CursorModeSwitcher'
 
 export const Navbar = () => {
   const { isMobileMenuOpen, setIsMobileMenuOpen } = useGlobalStore()
@@ -85,6 +86,46 @@ export const Navbar = () => {
             />
           ))}
         </div>
+
+        {/* ── CURSOR MODE SWITCHER ── */}
+        <div className="nav-right" style={{ flexShrink: 0 }}>
+          <CursorModeSwitcher />
+        </div>
+
+        {/* ── DIVIDER ── */}
+        <div style={{ width: '1px', height: '28px', background: 'var(--border)', flexShrink: 0 }} className="nav-right" />
+
+        {/* ── CV DOWNLOAD ── */}
+        <a
+          href="/cv.pdf"
+          download="Katon_CV.pdf"
+          className="nav-right cv-btn"
+          style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: '0.6rem',
+            letterSpacing: '0.18em',
+            color: 'var(--cyan)',
+            border: '1px solid rgba(0,255,255,0.4)',
+            padding: '7px 14px',
+            textDecoration: 'none',
+            cursor: 'none',
+            transition: 'all 0.25s',
+            background: 'transparent',
+            whiteSpace: 'nowrap',
+            clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))',
+            flexShrink: 0,
+          }}
+          onMouseEnter={e => {
+            e.currentTarget.style.background = 'rgba(0,255,255,0.1)'
+            e.currentTarget.style.boxShadow  = '0 0 16px rgba(0,255,255,0.3)'
+          }}
+          onMouseLeave={e => {
+            e.currentTarget.style.background = 'transparent'
+            e.currentTarget.style.boxShadow  = 'none'
+          }}
+        >
+          ↓ CV
+        </a>
 
         {/* ── DIVIDER ── */}
         <div style={{ width: '1px', height: '28px', background: 'var(--border)', flexShrink: 0 }} className="nav-right" />

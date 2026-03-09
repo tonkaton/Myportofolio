@@ -1,5 +1,7 @@
 import { create } from "zustand"
 
+export type CursorMode = 'default' | 'laser' | 'crosshair' | 'neon'
+
 interface GlobalStore {
   isLoading: boolean
   setIsLoading: (v: boolean) => void
@@ -11,6 +13,8 @@ interface GlobalStore {
   setIsTerminalOpen: (v: boolean) => void
   isGlitchMode: boolean
   setIsGlitchMode: (v: boolean) => void
+  cursorMode: CursorMode
+  setCursorMode: (m: CursorMode) => void
 }
 
 export const useGlobalStore = create<GlobalStore>((set) => ({
@@ -24,4 +28,6 @@ export const useGlobalStore = create<GlobalStore>((set) => ({
   setIsTerminalOpen: (v) => set({ isTerminalOpen: v }),
   isGlitchMode: false,
   setIsGlitchMode: (v) => set({ isGlitchMode: v }),
+  cursorMode: 'default',
+  setCursorMode: (m) => set({ cursorMode: m }),
 }))

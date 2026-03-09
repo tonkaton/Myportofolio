@@ -1,4 +1,5 @@
 import { PERSONAL_INFO } from '../../../lib/constants'
+import { VisitorCounter } from '../elements/VisitorCounter'
 
 export const Footer = () => {
   return (
@@ -20,6 +21,11 @@ export const Footer = () => {
             {PERSONAL_INFO.name}<span style={{ color: 'var(--magenta)' }}>_</span>
           </span>
           <span className="footer-tagline">CREATIVE DEVELOPER</span>
+        </div>
+
+        {/* Visitor Counter */}
+        <div className="footer-visitors">
+          <VisitorCounter />
         </div>
 
         {/* Copyright */}
@@ -111,6 +117,13 @@ export const Footer = () => {
           display: inline-block;
         }
 
+        .footer-visitors {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+        }
+
         /* ── TABLET ── */
         @media (max-width: 768px) {
           .footer-copy-sub { display: none; }
@@ -138,6 +151,9 @@ export const Footer = () => {
           }
           .footer-brand {
             order: 1;
+          }
+          .footer-visitors {
+            order: 2;
           }
         }
       `}</style>

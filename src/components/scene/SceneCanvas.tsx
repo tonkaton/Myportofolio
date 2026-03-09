@@ -8,6 +8,7 @@ import { CyberpunkGrid } from './objects/CyberpunkGrid'
 import { FloatingGeometry } from './objects/FloatingGeometry'
 import { Particles } from './objects/Particles'
 import { SceneEffects } from './effects/SceneEffects'
+import { TechIcons } from './objects/TechIcons'
 import { useGlobalStore } from '../../store/useGlobalStore'
 import * as THREE from 'three'
 
@@ -24,6 +25,7 @@ const SceneContent = () => (
       <CyberpunkGrid />
       <FloatingGeometry />
       {!isLowEnd && <Particles />}
+        <TechIcons />
     </Suspense>
     <SceneEffects />
   </>
