@@ -9,6 +9,7 @@ import { ErrorBoundary } from '../components/common/ErrorBoundary'
 import { SEO } from '../components/common/SEO'
 import { ErrorBoundary as SceneErrorBoundary } from '../components/common/ErrorBoundary'
 import { CursorTrail } from '../components/ui/elements/CursorTrail'
+import { OrbitOverlay } from '../components/ui/elements/OrbitOverlay'
 import { Terminal } from '../components/ui/elements/Terminal'
 import { PageTransitionOverlay } from '../components/ui/elements/PageTransition'
 import { useGlobalKeyboard } from '../hooks/useGlobalKeyboard'
@@ -50,6 +51,8 @@ function App() {
       >
         <SceneCanvas />
       </SceneErrorBoundary>
+
+      <OrbitOverlay />
 
       <div style={{ position: 'relative', zIndex: 10, display: 'flex', flexDirection: 'column' }} className="app-wrapper">
         <Navbar />

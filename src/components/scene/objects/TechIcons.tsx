@@ -4,26 +4,22 @@ import * as THREE from 'three'
 
 const isMobile = typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches
 
-// Skill stack — tiap orbit punya radius & kecepatan berbeda seperti planet
+// Orbit diperbesar — a=semi-major, b=semi-minor
 const TECHS = [
-  // Orbit dalam — cepat
-  { label: 'React',      color: '#61dafb', a: 1.4, b: 0.5, speed: 0.55, phase: 0.0  },
-  { label: 'TypeScript', color: '#3178c6', a: 2.0, b: 0.7, speed: 0.42, phase: 2.09 },
-  // Orbit tengah
-  { label: 'Node.js',    color: '#8cc84b', a: 2.7, b: 0.9, speed: 0.32, phase: 1.05 },
-  { label: 'GSAP',       color: '#88ce02', a: 2.7, b: 0.9, speed: 0.32, phase: 3.14 },
-  { label: 'Three.js',   color: '#00ffff', a: 3.4, b: 1.1, speed: 0.24, phase: 0.52 },
-  { label: 'Python',     color: '#ffd43b', a: 3.4, b: 1.1, speed: 0.24, phase: 3.67 },
-  // Orbit luar — lambat
-  { label: 'Docker',     color: '#2496ed', a: 4.2, b: 1.4, speed: 0.17, phase: 1.57 },
-  { label: 'Figma',      color: '#f24e1e', a: 4.2, b: 1.4, speed: 0.17, phase: 4.71 },
+  { label: 'React',      color: '#61dafb', a: 2.2, b: 0.7,  speed: 0.45, phase: 0.0  },
+  { label: 'TypeScript', color: '#3178c6', a: 3.0, b: 1.0,  speed: 0.34, phase: 2.09 },
+  { label: 'Node.js',    color: '#8cc84b', a: 3.9, b: 1.3,  speed: 0.26, phase: 1.05 },
+  { label: 'GSAP',       color: '#88ce02', a: 3.9, b: 1.3,  speed: 0.26, phase: 3.14 },
+  { label: 'Three.js',   color: '#00ffff', a: 4.8, b: 1.65, speed: 0.19, phase: 0.52 },
+  { label: 'Python',     color: '#ffd43b', a: 4.8, b: 1.65, speed: 0.19, phase: 3.67 },
+  { label: 'Docker',     color: '#2496ed', a: 5.8, b: 2.0,  speed: 0.13, phase: 1.57 },
+  { label: 'Figma',      color: '#f24e1e', a: 5.8, b: 2.0,  speed: 0.13, phase: 4.71 },
 ]
 
 type Tech = typeof TECHS[number]
 
-// Canvas label texture
 const makeLabel = (text: string, color: string): THREE.Texture => {
-  const W = 192, H = 52
+  const W = 200, H = 54
   const cv = document.createElement('canvas')
   cv.width = W; cv.height = H
   const ctx = cv.getContext('2d')!
@@ -34,7 +30,7 @@ const makeLabel = (text: string, color: string): THREE.Texture => {
   ctx.roundRect(1, 1, W - 2, H - 2, 8)
   ctx.fill(); ctx.stroke()
   ctx.fillStyle = '#ffffff'
-  ctx.font = 'bold 19px monospace'
+  ctx.font = 'bold 20px monospace'
   ctx.textAlign = 'center'
   ctx.textBaseline = 'middle'
   ctx.shadowColor = color
@@ -43,45 +39,27 @@ const makeLabel = (text: string, color: string): THREE.Texture => {
   return new THREE.CanvasTexture(cv)
 }
 
-// "Matahari" di tengah orbit
+// "Matahari" — core glowing di pusat orbit
 const Sun = () => {
-  const meshRef = useRef<THREE.Mesh>(null)
   const glowRef = useRef<THREE.Mesh>(null)
-
   useFrame(({ clock }) => {
-    const t = clock.elapsedTime
-    if (meshRef.current) meshRef.current.rotation.y = t * 0.2
-    if (glowRef.current) {
-      const s = 1 + Math.sin(t * 1.5) * 0.05
-      glowRef.current.scale.setScalar(s)
-    }
+    if (glowRef.current) glowRef.current.scale.setScalar(1 + Math.sin(clock.elapsedTime * 1.8) * 0.07)
   })
-
   return (
     <group>
-      {/* Core */}
-      <mesh ref={meshRef}>
-        <sphereGeometry args={[0.38, 24, 24]} />
-        <meshStandardMaterial
-          color="#00ffff"
-          emissive="#00ffff"
-          emissiveIntensity={1.2}
-          roughness={0.1}
-          metalness={0.8}
-        />
+      <mesh>
+        <sphereGeometry args={[0.42, 24, 24]} />
+        <meshStandardMaterial color="#00ffff" emissive="#00ffff" emissiveIntensity={1.4} roughness={0.1} metalness={0.6} />
       </mesh>
-      {/* Outer glow */}
       <mesh ref={glowRef}>
-        <sphereGeometry args={[0.55, 16, 16]} />
-        <meshBasicMaterial color="#00ffff" transparent opacity={0.06} side={THREE.BackSide} />
+        <sphereGeometry args={[0.7, 16, 16]} />
+        <meshBasicMaterial color="#00ffff" transparent opacity={0.07} side={THREE.BackSide} />
       </mesh>
-      {/* Point light from sun */}
-      <pointLight color="#00ffff" intensity={3} distance={12} decay={2} />
+      <pointLight color="#00ffff" intensity={4} distance={15} decay={2} />
     </group>
   )
 }
 
-// Ring elips miring — persis seperti gambar tata surya
 const OrbitRing = ({ a, b, color }: { a: number; b: number; color: string }) => {
   const geo = useMemo(() => {
     const pts: THREE.Vector3[] = []
@@ -91,11 +69,7 @@ const OrbitRing = ({ a, b, color }: { a: number; b: number; color: string }) => 
     }
     return new THREE.BufferGeometry().setFromPoints(pts)
   }, [a, b])
-
-  const mat = useMemo(() => new THREE.LineBasicMaterial({
-    color, transparent: true, opacity: 0.18,
-  }), [color])
-
+  const mat = useMemo(() => new THREE.LineBasicMaterial({ color, transparent: true, opacity: 0.2 }), [color])
   return (
     <lineLoop>
       <primitive object={geo} attach="geometry" />
@@ -104,7 +78,6 @@ const OrbitRing = ({ a, b, color }: { a: number; b: number; color: string }) => 
   )
 }
 
-// Planet yang mengorbit
 const Planet = ({ tech, index }: { tech: Tech; index: number }) => {
   const spriteRef = useRef<THREE.Sprite>(null)
   const dotRef    = useRef<THREE.Mesh>(null)
@@ -126,11 +99,11 @@ const Planet = ({ tech, index }: { tech: Tech; index: number }) => {
 
   return (
     <>
-      <sprite ref={spriteRef} scale={[1.1, 0.28, 1]}>
+      <sprite ref={spriteRef} scale={[1.3, 0.33, 1]}>
         <primitive object={spriteMat} attach="material" />
       </sprite>
       <mesh ref={dotRef}>
-        <sphereGeometry args={[0.07, 10, 10]} />
+        <sphereGeometry args={[0.08, 10, 10]} />
         <primitive object={dotMat} attach="material" />
       </mesh>
     </>
@@ -139,22 +112,12 @@ const Planet = ({ tech, index }: { tech: Tech; index: number }) => {
 
 export const TechIcons = () => {
   if (isMobile) return null
-
   return (
-    // Geser ke kanan layar + miring seperti tata surya
-    // rotateX miring 50° supaya orbit tampak elips perspektif
-    // rotateZ sedikit supaya sumbu miring seperti gambar
-    <group
-      position={[3.5, 0.5, -4]}
-      rotation={[Math.PI * 0.28, 0, -Math.PI * 0.08]}
-    >
+    // Di kanan layar, miring seperti tata surya, diperbesar
+    <group position={[4.5, 0.2, -6]} rotation={[Math.PI * 0.26, 0, -Math.PI * 0.07]}>
       <Sun />
-      {TECHS.map((t) => (
-        <OrbitRing key={`ring-${t.label}`} a={t.a} b={t.b} color={t.color} />
-      ))}
-      {TECHS.map((t, i) => (
-        <Planet key={t.label} tech={t} index={i} />
-      ))}
+      {TECHS.map((t) => <OrbitRing key={`r-${t.label}`} a={t.a} b={t.b} color={t.color} />)}
+      {TECHS.map((t, i) => <Planet key={t.label} tech={t} index={i} />)}
     </group>
   )
 }

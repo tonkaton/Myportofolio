@@ -4,8 +4,8 @@ import { PerspectiveCamera, AdaptiveDpr, AdaptiveEvents } from '@react-three/dre
 import { CameraRig } from './CameraRig'
 import { Lights } from './Lights'
 import { CyberpunkGrid } from './objects/CyberpunkGrid'
-import { TechIcons } from './objects/TechIcons'
 import { SceneEffects } from './effects/SceneEffects'
+import { SpaceBackground } from './objects/SpaceBackground'
 import { useGlobalStore } from '../../store/useGlobalStore'
 import * as THREE from 'three'
 
@@ -18,9 +18,7 @@ const SceneContent = () => (
     <Lights />
     <Suspense fallback={null}>
       <CyberpunkGrid />
-    </Suspense>
-    <Suspense fallback={null}>
-      <TechIcons />
+      <SpaceBackground />
     </Suspense>
     <SceneEffects />
   </>
