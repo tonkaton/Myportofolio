@@ -94,7 +94,7 @@ export const Hero = () => {
               CONTACT ME
             </Button>
             <a
-              href="/cv.pdf"
+              href="/cv.katon"
               download="Katon_CV.pdf"
               className="hero-cv-btn"
             >
@@ -119,12 +119,6 @@ export const Hero = () => {
 
         </div>
       </Container>
-
-      {/* Scroll indicator — hidden on mobile */}
-      <div className="hero-scroll">
-        <span className="hero-scroll-text">SCROLL</span>
-        <div className="hero-scroll-line" />
-      </div>
 
       <style>{`
         /* ── HERO BASE ── */

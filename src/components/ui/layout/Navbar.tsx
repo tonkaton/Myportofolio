@@ -98,32 +98,10 @@ export const Navbar = () => {
         <a
           href="/cv.pdf"
           download="Katon_CV.pdf"
-          className="nav-right cv-btn"
-          style={{
-            fontFamily: 'var(--font-display)',
-            fontSize: '0.6rem',
-            letterSpacing: '0.18em',
-            color: 'var(--cyan)',
-            border: '1px solid rgba(0,255,255,0.4)',
-            padding: '7px 14px',
-            textDecoration: 'none',
-            cursor: 'none',
-            transition: 'all 0.25s',
-            background: 'transparent',
-            whiteSpace: 'nowrap',
-            clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))',
-            flexShrink: 0,
-          }}
-          onMouseEnter={e => {
-            e.currentTarget.style.background = 'rgba(0,255,255,0.1)'
-            e.currentTarget.style.boxShadow  = '0 0 16px rgba(0,255,255,0.3)'
-          }}
-          onMouseLeave={e => {
-            e.currentTarget.style.background = 'transparent'
-            e.currentTarget.style.boxShadow  = 'none'
-          }}
+          className="nav-right nav-cv-btn"
         >
-          ↓ CV
+          <span style={{ fontSize: '0.75rem', lineHeight: 1 }}>↓</span>
+          CV
         </a>
 
         {/* ── DIVIDER ── */}
@@ -224,6 +202,47 @@ export const Navbar = () => {
         }
         @media (max-width: 480px) {
           nav { padding: 0 20px !important; }
+        }
+        .nav-cv-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          font-family: var(--font-display);
+          font-size: 0.62rem;
+          font-weight: 700;
+          letter-spacing: 0.2em;
+          color: var(--cyan);
+          border: 1.5px solid rgba(0,255,255,0.5);
+          padding: 6px 16px;
+          text-decoration: none;
+          cursor: none;
+          background: rgba(0,255,255,0.04);
+          white-space: nowrap;
+          flex-shrink: 0;
+          position: relative;
+          overflow: hidden;
+          transition: color 0.25s ease, box-shadow 0.25s ease;
+        }
+        .nav-cv-btn::after {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: var(--cyan);
+          transform: scaleX(0);
+          transform-origin: left;
+          transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+          z-index: 0;
+        }
+        .nav-cv-btn:hover {
+          color: #000;
+          box-shadow: 0 0 20px rgba(0,255,255,0.4);
+        }
+        .nav-cv-btn:hover::after {
+          transform: scaleX(1);
+        }
+        .nav-cv-btn > * {
+          position: relative;
+          z-index: 1;
         }
       `}</style>
     </>
