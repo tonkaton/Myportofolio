@@ -1,6 +1,4 @@
-import { EffectComposer, Bloom, ChromaticAberration } from "@react-three/postprocessing"
-import { BlendFunction } from "postprocessing"
-import { Vector2 } from "three"
+import { EffectComposer, Bloom } from "@react-three/postprocessing"
 
 const isMobile = window.matchMedia("(max-width: 768px)").matches
 
@@ -14,14 +12,6 @@ export const BloomEffect = ({ degraded = false }: { degraded?: boolean }) => {
         mipmapBlur
         radius={degraded ? 0.4 : 0.8}
       />
-      {!isMobile && !degraded && (
-        <ChromaticAberration
-          offset={new Vector2(0.002, 0.002)}
-          blendFunction={BlendFunction.NORMAL}
-          radialModulation={false}
-          modulationOffset={0}
-        />
-      )}
     </EffectComposer>
   )
 }
