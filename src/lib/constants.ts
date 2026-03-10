@@ -1,3 +1,4 @@
+import { Instagram } from 'lucide-react'
 import type { NavLink, Project, Skill, Certificate } from '../types/project'
 
 export const NAV_LINKS: NavLink[] = [
@@ -12,43 +13,43 @@ export const NAV_LINKS: NavLink[] = [
 export const PROJECTS: Project[] = [
   {
     id: '01',
-    title: 'WEB3_PLATFORM',
-    description: 'Decentralized Web3 application developed at Codiroom — integrating smart contracts, wallet connect, and responsive UI.',
-    tags: ['React', 'Solidity', 'Web3.js', 'TypeScript'],
+    title: 'Botak Engine Speed',
+    description: 'Smart Service for Your Motorcycle - Monitor your bike’s maintenance history and earn loyalty rewards every time you service your motorcycle.',
+    tags: ['React', 'Express.js', 'Sequelize', 'TypeScript', 'Mysql'],
     liveUrl: '#',
-    githubUrl: '#',
+    githubUrl: 'https://github.com/tonkaton/ProjectBengkel',
     featured: true,
-    year: 2024,
+    year: 2025,
   },
   {
     id: '02',
-    title: 'MOBILE_APP',
-    description: 'Cross-platform mobile application with modern UI, REST API integration, and real-time data synchronization.',
-    tags: ['React Native', 'Node.js', 'REST API'],
+    title: 'OlaATK',
+    description: 'Everything You Need for Printing & Office Supplies - From photocopy and printing to complete stationery products, OlaATK helps students and professionals get their work done faster.',
+    tags: ['React', 'Node.js', 'Express.js', 'Prisma', 'Mysql'],
     liveUrl: '#',
-    githubUrl: '#',
+    githubUrl: 'https://github.com/tonkaton/OlaATK',
     featured: true,
-    year: 2024,
+    year: 2026,
   },
   {
     id: '03',
-    title: 'CMS_ECOMMERCE',
-    description: 'Full e-commerce platform built with WordPress & OpenCart. Custom theme, payment gateway, and inventory management.',
-    tags: ['WordPress', 'OpenCart', 'PHP', 'MySQL'],
+    title: 'IJM - CarShowroom',
+    description: 'Find Your Perfect Used Car - Quality pre-owned vehicles with trusted service and competitive prices at IJM (Istana Jaya Motor).',
+    tags: ['PHP', 'Boostrap', 'Javascript', 'MySQL'],
     liveUrl: '#',
-    githubUrl: '#',
+    githubUrl: 'https://github.com/tonkaton/Codiroom-Car-Showroom-CMS-',
     featured: false,
-    year: 2022,
+    year: 2023,
   },
   {
     id: '04',
-    title: 'COMPANY_PORTAL',
-    description: 'Internal web portal for PT. TerminalTujuh — dashboard, user management, and CMS integration using PHP & Laravel.',
-    tags: ['Laravel', 'PHP', 'JavaScript', 'MySQL'],
+    title: 'Codiroom - SoftwareHouse',
+    description: 'Code the Future - Web3 development, mobile apps, and professional websites built by Codiroom for modern businesses.',
+    tags: ['TypeScript', 'React-SWC', 'BrutalismStyle',],
     liveUrl: '#',
-    githubUrl: '#',
+    githubUrl: 'https://github.com/tonkaton/Codiroom',
     featured: false,
-    year: 2022,
+    year: 2026,
   },
 ]
 
@@ -73,8 +74,8 @@ export const PERSONAL_INFO = {
   location: 'JAKARTA, INDONESIA',
   email:    'katonkurnia28@gmail.com',
   phone:    '087776131793',
-  github:   'https://github.com/katondev',
-  linkedin: 'https://linkedin.com/in/katondev',
+  github:   'https://github.com/tonkaton',
+  Instagram: 'https://www.instagram.com/kaatonnn/',
 }
 
 export const CERTIFICATES: Certificate[] = [

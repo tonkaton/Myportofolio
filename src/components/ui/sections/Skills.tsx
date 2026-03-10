@@ -7,6 +7,7 @@ import {
   Container, Wand2, Zap, Triangle,
 } from 'lucide-react'
 import { Container as PageContainer } from '../layout/Container'
+import { Serializer } from 'v8'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -18,6 +19,7 @@ const SKILLS = [
   { name: 'Next.js',     icon: Triangle,  color: '#ffffff', level: 85, cat: 'Frontend'  },
   { name: 'GSAP',        icon: Zap,       color: '#88ce02', level: 85, cat: 'Frontend'  },
   { name: 'Tailwind',    icon: Wind,      color: '#38bdf8', level: 80, cat: 'Frontend'  },
+  { name: 'PHP',         icon: Code2,     color: '#4396f5', level: 80, cat: 'Frontend'  },
   // 3D / Creative
   { name: 'Three.js',   icon: Box,       color: '#00ffff', level: 80, cat: '3D'        },
   { name: 'WebGL/GLSL', icon: Cpu,       color: '#ff00ff', level: 65, cat: '3D'        },
@@ -27,6 +29,7 @@ const SKILLS = [
   { name: 'Node.js',    icon: Server,    color: '#8cc84b', level: 78, cat: 'Backend'   },
   { name: 'Python',     icon: Terminal,  color: '#ffd43b', level: 72, cat: 'Backend'   },
   { name: 'PostgreSQL', icon: Database,  color: '#336791', level: 68, cat: 'Backend'   },
+  { name: 'Laravel',    icon: Server,    color: '#ec7628', level: 68, cat: 'Backend'   },
   // Tools
   { name: 'Docker',     icon: Container, color: '#2496ed', level: 70, cat: 'Tools'     },
   { name: 'Git',        icon: GitBranch, color: '#f05032', level: 85, cat: 'Tools'     },

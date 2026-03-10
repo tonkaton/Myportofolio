@@ -78,7 +78,7 @@ export const Contact = () => {
               {[
                 { label: 'EMAIL', value: PERSONAL_INFO.email, href: `mailto:${PERSONAL_INFO.email}` },
                 { label: 'GITHUB', value: 'github.com/katondev', href: PERSONAL_INFO.github },
-                { label: 'LINKEDIN', value: 'linkedin.com/in/katondev', href: PERSONAL_INFO.linkedin },
+                { label: 'INSTAGRAM', value: 'https://www.instagram.com/kaatonnn/', href: PERSONAL_INFO.Instagram },
               ].map(({ label, value, href }) => (
                 <a
                   key={label}
